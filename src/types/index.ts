@@ -1,13 +1,8 @@
-interface ResultI {
+export interface ProductI {
   id: string,
-  firstValue: number,
-  secondValue: number,
-  operation: string,
-  result: number
+  name: number | string,
+  price: number | string,
+  quantity: number | string,
 }
 
-export interface RootStateI {
-  resultList: Array<ResultI>
-}
-
-export default RootStateI;
+export default ProductI;

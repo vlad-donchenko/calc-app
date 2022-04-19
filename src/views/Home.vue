@@ -3,83 +3,36 @@
     class="home"
   >
     <p
-     class="home__title"
+      class="home__title"
     >
-      All Result
+      Task:
     </p>
-    <div
-      v-if="getResultList.length"
-      class="home__list"
-    >
-      <ResultCard
-        v-for="item in getResultList"
-        :key="item.id"
-        :result="item.result"
-        :operation="item.operation"
-        :first-value="item.firstValue"
-        :second-value="item.secondValue"
-      />
-    </div>
     <p
-      v-else
-      class="home__empty-result"
+     class="home__sub-title"
     >
-      No available results
+      Using Vue and Vuex, create a calc that won’t be lost if the user closes the browser.
+    </p>
+    <p
+      class="home__title"
+    >
+      Stack:
+    </p>
+    <p>
+      Vue 2 + TS
     </p>
   </div>
 </template>
 
-<script lang="ts">
-import Vue from 'vue';
-import { mapGetters } from 'vuex';
-import ResultCard from '@/components/ResultCard.vue';
-
-export default Vue.extend({
-  name: 'Home',
-
-  components: {
-    ResultCard,
-  },
-
-  computed: {
-    ...mapGetters([
-      'getResultList',
-    ]),
-  },
-});
-</script>
-
 <style scoped lang="scss">
   .home__title {
     margin-top: 0;
-    margin-bottom: 32px;
-    text-align: center;
+    margin-bottom: 24px;
     font-weight: 800;
     font-size: 24px;
     line-height: 32px;
   }
 
-  .home__list {
-    display: grid;
-    grid-gap: 24px;
-    grid-template-columns: 1fr;
-  }
+  .home__sub-title {
 
-  .home__empty-result {
-    text-align: center;
-    font-size: 18px;
-    color: #99A9B8;
-  }
-
-  @media screen and(min-width: 768px) {
-    .home__list {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media screen and(min-width: 1280px) {
-    .home__list {
-      grid-template-columns: repeat(3, 1fr);
-    }
   }
 </style>
