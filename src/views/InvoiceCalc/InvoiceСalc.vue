@@ -157,7 +157,7 @@ export default Vue.extend({
   },
 
   watch: {
-    list(newList): void {
+    list(newList: Array<ProductI> | []): void {
       localStorage.setItem('productList', JSON.stringify(newList));
     },
   },
@@ -201,7 +201,7 @@ export default Vue.extend({
       });
     },
 
-    removeProduct(index) {
+    removeProduct(index: number): void {
       this.list.splice(index, 1);
     },
 
@@ -213,7 +213,7 @@ export default Vue.extend({
       this.formData.quantity = '';
     },
 
-    handleDeleteButtonClick(index) {
+    handleDeleteButtonClick(index: number): void {
       this.removeProduct(index);
     },
 
