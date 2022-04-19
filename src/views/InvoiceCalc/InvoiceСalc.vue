@@ -55,7 +55,7 @@
         'Product name:',
         'Price',
         'Quantity',
-        'Sum'
+        'Sum',
       ]"
       :table-body-list="list"
     >
@@ -63,12 +63,14 @@
         v-slot:default="{ list }"
       >
         <InvoiceCalcItem
-          v-for="item in list"
+          v-for="(item, index) in list"
           :key="item.id"
+          :index="index"
           :name="item.name"
           :quantity="item.quantity"
           :price="getFormattedPriceByCurrency(item.price)"
           :sum="getCurrentProductSum(Number(item.quantity), Number(item.price))"
+          @on-delete-button-click="handleDeleteButtonClick"
         />
       </template>
     </AppTable>
@@ -199,12 +201,20 @@ export default Vue.extend({
       });
     },
 
+    removeProduct(index) {
+      this.list.splice(index, 1);
+    },
+
     resetForm(): void {
       this.$v.$reset();
 
       this.formData.name = '';
       this.formData.price = '';
       this.formData.quantity = '';
+    },
+
+    handleDeleteButtonClick(index) {
+      this.removeProduct(index);
     },
 
     handleAddButtonClick(): void {

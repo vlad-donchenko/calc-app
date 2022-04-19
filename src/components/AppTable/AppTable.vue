@@ -4,25 +4,29 @@
     >
       <div
         class="table__inner"
-        :style="tableColumn"
       >
         <div
-          class="table__header-item"
-          v-for="item in tableHeadList"
-          :key="item"
+          class="table__header"
+          :style="tableColumn"
         >
-          {{ item }}
+          <div
+            class="table__header-item"
+            v-for="item in tableHeadList"
+            :key="item"
+          >
+            {{ item }}
+          </div>
         </div>
+        <template
+          v-if="tableBodyList.length"
+        >
+          <slot
+            :list="tableBodyList"
+          />
+        </template>
       </div>
-      <template
-        v-if="tableBodyList.length"
-      >
-        <slot
-          :list="tableBodyList"
-        />
-      </template>
       <p
-        v-else
+        v-if="!tableBodyList.length"
         class="table__empty-title"
       >
         No available items
@@ -67,9 +71,13 @@ export default Vue.extend({
     overflow-x: auto;
   }
 
+  .table__header {
+    display: grid;
+  }
+
   .table__inner {
     display: grid;
-    min-width: 656px;
+    min-width: 750px;
   }
 
   .table__header-item {

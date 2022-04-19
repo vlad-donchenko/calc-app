@@ -3,7 +3,9 @@
       class="table-item"
       :class="isHighlighted ? 'table-item--highlighted' : ''"
     >
-      {{ value }}
+      <slot>
+        {{ value }}
+      </slot>
     </div>
 </template>
 
