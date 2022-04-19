@@ -5,4 +5,8 @@ export interface ProductI {
   quantity: number | string,
 }
 
+export interface RootStateI {
+  resultList: Array<ProductI>
+}
+
 export default ProductI;

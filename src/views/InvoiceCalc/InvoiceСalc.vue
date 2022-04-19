@@ -2,6 +2,9 @@
   <div
     class="calculation"
   >
+    <pre>
+      {{ $v }}
+    </pre>
     <form
       action=""
       method="post"
@@ -14,6 +17,7 @@
           v-model.number="formData.name"
           type="text"
           label="Product name:"
+          :class="{ 'form-group--error': $v.formData.name.$error }"
         />
         <AppInput
           v-model.number="formData.price"
@@ -79,6 +83,8 @@
 </template>
 
 <script lang="ts">
+import { required } from 'vuelidate/lib/validators';
+import { validationMixin } from 'vuelidate';
 import Vue from 'vue';
 import AppInput from '@/components/AppInput.vue';
 import AppButton from '@/components/AppButton.vue';
@@ -89,6 +95,8 @@ import { ProductI } from '@/types';
 
 export default Vue.extend({
   name: 'InvoiceCalc',
+
+  mixins: [validationMixin],
 
   components: {
     AppTable,
@@ -105,6 +113,14 @@ export default Vue.extend({
         quantity: '',
       },
       list: [] as Array<ProductI>,
+    };
+  },
+
+  validations() {
+    return {
+      formData: {
+        name: required,
+      },
     };
   },
 
@@ -128,7 +144,7 @@ export default Vue.extend({
   },
 
   methods: {
-    setProductListOnStart() {
+    setProductListOnStart(): void {
       const savedProductList = localStorage.getItem('productList');
 
       if (!savedProductList) {
