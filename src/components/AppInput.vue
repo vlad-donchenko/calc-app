@@ -11,6 +11,9 @@
     <input
       v-model="model"
       class="input__control"
+      :class="{
+        'input__control--error': isError
+      }"
       :id="inputId"
       :type="type"
       :value="value"
@@ -18,10 +21,16 @@
       :disabled="disabled"
       :placeholder="placeholder"
     >
+    <p
+      v-if="isError && errorMessage.length"
+      class="input__error-message"
+    >
+      {{ errorMessage }}
+    </p>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Vue from 'vue';
 import { getRandomId } from '@/utils';
 
@@ -54,6 +63,14 @@ export default Vue.extend({
       required: true,
       default: '',
     },
+    isError: {
+      type: Boolean,
+      default: false,
+    },
+    errorMessage: {
+      type: String,
+      default: '',
+    },
   },
 
   inheritAttrs: false,
@@ -69,11 +86,11 @@ export default Vue.extend({
       },
     },
 
-    inputName() {
+    inputName(): string {
       return this.name || this.label.toLowerCase();
     },
 
-    inputId() {
+    inputId(): string {
       return getRandomId();
     },
   },
@@ -148,10 +165,31 @@ export default Vue.extend({
     }
   }
 
+  .input__control.input__control--error {
+    border-color: #F41840;
+
+    &:hover {
+      border-color: #F41840;
+    }
+
+    &:focus {
+      border-color: #F41840;
+      box-shadow: 0 0 0 2px #F9DDE1;
+    }
+  }
+
   .input__label {
     font-weight: 700;
     font-size: 14px;
     line-height: 16px;
     color: #09253F;
+  }
+
+  .input__error-message {
+    margin: 0;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    color: #F41840;
   }
 </style>

@@ -2,9 +2,6 @@
   <div
     class="calculation"
   >
-    <pre>
-      {{ $v }}
-    </pre>
     <form
       action=""
       method="post"
@@ -17,17 +14,31 @@
           v-model.number="formData.name"
           type="text"
           label="Product name:"
-          :class="{ 'form-group--error': $v.formData.name.$error }"
+          :is-error="$v.formData.name.$error"
+          :error-message="
+            `Field must be required.
+             Field must have at least ${$v.formData.name.$params.minLength.min} letters`
+          "
         />
         <AppInput
           v-model.number="formData.price"
           type="number"
           label="Price:"
+          :is-error="$v.formData.price.$error"
+          :error-message="
+            `Field must be required.
+             Field must be integer value  more then ${$v.formData.price.$params.minValue.min}`
+          "
         />
         <AppInput
           v-model.number="formData.quantity"
           type="number"
           label="Quantity:"
+          :is-error="$v.formData.quantity.$error"
+          :error-message="
+            `Field must be required.
+             Field must be integer value  more then ${$v.formData.price.$params.minValue.min}`
+          "
         />
       </div>
       <div
@@ -83,7 +94,9 @@
 </template>
 
 <script lang="ts">
-import { required } from 'vuelidate/lib/validators';
+import {
+  required, minLength, integer, minValue,
+} from 'vuelidate/lib/validators';
 import { validationMixin } from 'vuelidate';
 import Vue from 'vue';
 import AppInput from '@/components/AppInput.vue';
@@ -119,7 +132,20 @@ export default Vue.extend({
   validations() {
     return {
       formData: {
-        name: required,
+        name: {
+          required,
+          minLength: minLength(4),
+        },
+        price: {
+          integer,
+          required,
+          minValue: minValue(1),
+        },
+        quantity: {
+          integer,
+          required,
+          minValue: minValue(1),
+        },
       },
     };
   },
@@ -174,14 +200,20 @@ export default Vue.extend({
     },
 
     resetForm(): void {
+      this.$v.$reset();
+
       this.formData.name = '';
       this.formData.price = '';
       this.formData.quantity = '';
     },
 
     handleAddButtonClick(): void {
-      this.addNewProduct();
-      this.resetForm();
+      this.$v.$touch();
+
+      if (!this.$v.$error) {
+        this.addNewProduct();
+        this.resetForm();
+      }
     },
   },
 });
@@ -207,6 +239,7 @@ export default Vue.extend({
   .calculation__form-input-list {
     display: grid;
     grid-gap: 16px;
+    align-items: flex-start;
   }
 
   .calculation__result {
