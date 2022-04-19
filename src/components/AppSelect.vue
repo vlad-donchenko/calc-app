@@ -12,8 +12,6 @@
       v-if="options.length"
       v-bind="$attrs"
       v-on="$listeners"
-      :label="selectLabel"
-      :track-by="trackBy"
       :options="options"
     />
   </div>
@@ -40,14 +38,6 @@ export default Vue.extend({
     options: {
       type: Array,
       default: () => [],
-    },
-    selectLabel: {
-      type: String,
-      default: '',
-    },
-    trackBy: {
-      type: String,
-      default: '',
     },
   },
 });
@@ -99,6 +89,15 @@ export default Vue.extend({
     padding: 11px 48px 11px 24px;
     border-radius: 12px;
     border-color: #DEE3E8;
+
+    &:hover {
+      border-color: #99A9B8;
+    }
+  }
+
+  .select .multiselect--active .multiselect__tags {
+    border-color: #99A9B8;
+    box-shadow: 0 0 0 2px #EBEDFA;
   }
 
   .select .multiselect__select {

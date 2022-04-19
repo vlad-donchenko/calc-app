@@ -1,13 +1,24 @@
 <template>
-  <div class="calculation">
-    <div class="calculation__result">
-      <AppInput
-        label="Result:"
-        :disabled="true"
-        :value="result"
-      />
+  <div
+    class="calculation"
+  >
+    <div
+      class="calculation__result"
+    >
+      <p
+        class="calculation__result-title"
+      >
+        Result:
+      </p>
+      <p
+        class="calculation__result-title"
+      >
+        {{ result }}
+      </p>
     </div>
-    <div class="calculation__body">
+    <div
+      class="calculation__body"
+    >
       <AppInput
         v-model.number="firstValue"
         type="number"
@@ -16,8 +27,6 @@
       <AppSelect
         v-model="operation"
         label="Select operation:"
-        select-label="name"
-        track-by="value"
         :searchable="false"
         :options="operationList"
       />
@@ -27,7 +36,9 @@
         label="Second value:"
       />
     </div>
-    <div class="calculation__control">
+    <div
+      class="calculation__control"
+    >
       <AppButton
         label="Result"
         @click="handleResultButtonClick"
@@ -43,10 +54,12 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { mapActions } from 'vuex';
 import AppInput from '@/components/AppInput.vue';
 import AppButton from '@/components/AppButton.vue';
 import AppSelect from '@/components/AppSelect.vue';
-import { MathOperation } from '@/const';
+import { MathOperation, MathOperationMap } from '@/const';
+import { getResultValueByOperation, getRandomId } from '@/utils';
 
 export default Vue.extend({
   components: {
@@ -57,61 +70,63 @@ export default Vue.extend({
 
   data() {
     return {
-      operation: {
-        name: 'Addition (+)',
-        value: MathOperation.ADDITION,
-      },
-      firstValue: 0,
-      secondValue: 0,
-      result: 0,
+      result: Number(localStorage.getItem('result')) || 0,
+      firstValue: Number(localStorage.getItem('firstValue')) || 0,
+      secondValue: Number(localStorage.getItem('secondValue')) || 0,
+      operation: localStorage.getItem('operation') || MathOperation.ADDITION,
       operationList: [
-        {
-          name: 'Addition (+)',
-          value: MathOperation.ADDITION,
-        },
-        {
-          name: 'Subtraction (-)',
-          value: MathOperation.SUBTRACTION,
-        },
-        {
-          name: 'Multiplication (x)',
-          value: MathOperation.MULTIPLICATION,
-        },
-        {
-          name: 'Division (÷)',
-          value: MathOperation.DIVISION,
-        },
+        MathOperation.ADDITION,
+        MathOperation.SUBTRACTION,
+        MathOperation.MULTIPLICATION,
+        MathOperation.DIVISION,
       ],
     };
   },
 
-  methods: {
-    resetCalculation(): void {
-      this.firstValue = 0;
-      this.secondValue = 0;
-      this.operation = {
-        name: 'Addition (+)',
-        value: MathOperation.ADDITION,
-      };
+  watch: {
+    result(value): void {
+      localStorage.setItem('result', value);
     },
 
-    getResult(operation : string): number {
-      switch (operation) {
-        case MathOperation.ADDITION:
-          return this.firstValue + this.secondValue;
-        case MathOperation.SUBTRACTION:
-          return this.firstValue - this.secondValue;
-        case MathOperation.MULTIPLICATION:
-          return this.firstValue * this.secondValue;
-        case MathOperation.DIVISION:
-          return this.firstValue / this.secondValue;
-        default:
-          return 0;
-      }
+    firstValue(value): void {
+      localStorage.setItem('firstValue', value);
+    },
+
+    secondValue(value): void {
+      localStorage.setItem('secondValue', value);
+    },
+
+    operation(value): void {
+      localStorage.setItem('operation', value);
+    },
+  },
+
+  methods: {
+    ...mapActions([
+      'addResultItem',
+    ]),
+
+    resetCalculation(): void {
+      this.result = 0;
+      this.firstValue = 0;
+      this.secondValue = 0;
+      this.operation = MathOperation.ADDITION;
     },
 
     handleResultButtonClick(): void {
-      this.result = this.getResult(this.operation.value);
+      this.result = getResultValueByOperation(
+        this.operation,
+        this.firstValue,
+        this.secondValue,
+      );
+
+      this.addResultItem({
+        id: getRandomId(),
+        firstValue: this.firstValue,
+        secondValue: this.secondValue,
+        operation: MathOperationMap[this.operation],
+        result: this.result,
+      });
     },
 
     handleCleanButtonClick(): void {
@@ -130,7 +145,16 @@ export default Vue.extend({
   }
 
   .calculation__result {
+    display: flex;
+    justify-content: space-between;
     margin-bottom: 32px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #DEE3E8;
+  }
+
+  .calculation__result-title {
+    margin: 0;
+    font-size: 24px;
   }
 
   .calculation__body {

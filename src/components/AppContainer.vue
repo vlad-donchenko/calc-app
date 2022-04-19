@@ -25,14 +25,14 @@ export default Vue.extend({
     padding-right: 16px;
   }
 
-  @media screen and(min-width: 768px){
+  @media screen and(min-width: 768px) {
     .container {
       padding-left: 24px;
       padding-right: 24px;
     }
   }
 
-  @media screen and(min-width: 1280px){
+  @media screen and(min-width: 1280px) {
     .container {
       max-width: 1440px;
     }
