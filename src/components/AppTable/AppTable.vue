@@ -36,10 +36,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-
-interface tableColumnI {
-  gridTemplateColumns: string
-}
+import { tableColumnI } from '@/types';
 
 export default Vue.extend({
   name: 'AppTable',

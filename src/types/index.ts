@@ -5,6 +5,10 @@ export interface ProductI {
   quantity: number | string,
 }
 
+export interface tableColumnI {
+  gridTemplateColumns: string
+}
+
 export interface RootStateI {
   resultList: Array<ProductI>
 }

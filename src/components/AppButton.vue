@@ -32,13 +32,13 @@ export default Vue.extend({
   },
 
   computed: {
-    variant() {
+    variant(): string {
       return this.isPrimary ? 'button--primary' : 'button--secondary';
     },
   },
 
   methods: {
-    handleButtonClick() {
+    handleButtonClick(): void {
       this.$emit('click');
     },
   },
