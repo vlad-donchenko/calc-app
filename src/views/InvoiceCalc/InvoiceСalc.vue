@@ -173,7 +173,7 @@ export default Vue.extend({
 
   methods: {
     setProductListOnStart(): void {
-      const savedProductList = localStorage.getItem('productList');
+      const savedProductList: string = localStorage.getItem('productList');
 
       if (!savedProductList) {
         return;
