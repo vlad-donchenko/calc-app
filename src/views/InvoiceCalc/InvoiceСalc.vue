@@ -39,6 +39,7 @@ import AppTable from '@/components/AppTable/AppTable.vue';
 import InvoiceCalcForm from '@/views/InvoiceCalc/InvoiceCalcForm.vue';
 import InvoiceCalcResult from '@/views/InvoiceCalc/InvoiceCalcResult.vue';
 import InvoiceCalcItem from '@/views/InvoiceCalc/InvoiceCalcItem.vue';
+import { ProductI } from '@/types';
 
 export default Vue.extend({
   name: 'InvoiceCalc',
@@ -56,7 +57,7 @@ export default Vue.extend({
     ]),
 
     totalPrice(): number {
-      return this.getProductList.reduce((accumulator, item) => {
+      return this.getProductList.reduce((accumulator: number, item: ProductI): number => {
         const { price, quantity } = item;
         return accumulator + (Number(price) * Number(quantity));
       }, 0);

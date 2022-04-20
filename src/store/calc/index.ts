@@ -28,7 +28,7 @@ const getters: GetterTree<CalcI, RootStateI> = {
 };
 
 const actions: ActionTree<CalcI, RootStateI> = {
-  addNewProduct({ commit, state }, payload: ProductI) {
+  addNewProduct({ commit }, payload: ProductI) {
     commit(CalcMutation.SET_PRODUCT_ITEM, payload);
   },
   removeProduct({ commit }, payload: number) {
