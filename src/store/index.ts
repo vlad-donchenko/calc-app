@@ -1,25 +1,17 @@
 import Vue from 'vue';
 import Vuex, { StoreOptions } from 'vuex';
 import { RootStateI } from '@/types';
+import calc from '@/store/calc/index';
 
 Vue.use(Vuex);
 
 const store: StoreOptions<RootStateI> = {
   state: {
-    resultList: [],
+    taskMessage: '',
+    taskStackMessage: '',
   },
-  mutations: {
-    SET_RESULT_ITEM(state, item) {
-      state.resultList.push(item);
-    },
-  },
-  getters: {
-    getResultList: (state) => state.resultList,
-  },
-  actions: {
-    addResultItem({ commit }, payload) {
-      commit('SET_RESULT_ITEM', payload);
-    },
+  modules: {
+    calc,
   },
 };
 

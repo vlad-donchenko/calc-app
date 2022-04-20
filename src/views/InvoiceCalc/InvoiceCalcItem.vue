@@ -27,6 +27,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { mapActions } from 'vuex';
 import AppButton from '@/components/AppButton.vue';
 import AppTableItem from '@/components/AppTable/AppTableItem.vue';
 
@@ -62,8 +63,12 @@ export default Vue.extend({
   },
 
   methods: {
+    ...mapActions('calc', [
+      'removeProduct',
+    ]),
+
     handleDeleteButtonClick(): void {
-      this.$emit('on-delete-button-click', this.index);
+      this.removeProduct(this.index);
     },
   },
 });

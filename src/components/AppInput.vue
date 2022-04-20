@@ -77,11 +77,11 @@ export default Vue.extend({
 
   computed: {
     model: {
-      set(value) {
+      set(value: string | number): void {
         this.$emit('input', value);
       },
 
-      get() {
+      get(): string | number {
         return this.value;
       },
     },

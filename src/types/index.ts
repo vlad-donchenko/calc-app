@@ -10,7 +10,17 @@ export interface tableColumnI {
 }
 
 export interface RootStateI {
-  resultList: Array<ProductI>
+  taskMessage: string,
+  taskStackMessage: string,
+}
+
+export interface CalcI {
+  productList: Array<ProductI>
+}
+
+export enum CalcMutation {
+  SET_PRODUCT_ITEM = 'SET_PRODUCT_ITEM',
+  DELETE_PRODUCT_ITEM = 'DELETE_PRODUCT_ITEM',
 }
 
 export default ProductI;
